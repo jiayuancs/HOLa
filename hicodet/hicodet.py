@@ -62,6 +62,7 @@ class HICODet(ImageDataset):
             and its target as entry and returns a transformed version.
     """
     def __init__(self, root: str, anno_file: str,
+            object_cls_num: int = 80, hoi_cls_num: int = 600, verb_cls_num: int = 117,
             transform: Optional[Callable] = None,
             target_transform: Optional[Callable] = None,
             transforms: Optional[Callable] = None) -> None:
@@ -69,9 +70,9 @@ class HICODet(ImageDataset):
         with open(anno_file, 'r') as f:
             anno = json.load(f)
 
-        self.num_object_cls = 80
-        self.num_interation_cls = 600
-        self.num_action_cls = 117
+        self.num_object_cls = object_cls_num
+        self.num_interation_cls = hoi_cls_num
+        self.num_action_cls = verb_cls_num
         self._anno_file = anno_file
 
         # Load annotations
