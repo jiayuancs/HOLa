@@ -1652,7 +1652,13 @@ class UPT(nn.Module):
             else:
                 pt_adapter_feats = None
             
-
+            if not self.training:
+                assert len(region_props) == 1
+                n_h = self.check_human_instances(region_props[0]['labels'])
+                n = region_props[0]['labels'].shape[0]
+                if n_h <= 0:
+                    print(f"Warning in get_pair_prior: human boxes = {n_h}, object boxes = {n}")
+                    return None
             feat_global, feat_local, paired_tokens = self.clip_head.image_encoder(images_clip.decompose()[0], priors, context=context, pair_prior = (pt_adapter_feats, None))   
 
 
